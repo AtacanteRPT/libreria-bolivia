@@ -2,114 +2,131 @@
 title: Docuementacion Libreria - Bolivia
 baseUri: libreriabol-94876.onmodulus.net/
 mediaType: application/json
-/auth/registro :
-  description: creacion o registro de usuarios
-  get:
-    description: pagina de Registro Generada por Angular2/Ionic2
-    responses:
-      200:
-        body:
-          application/json:
-            example: |
-              {
-                "registro": "Bienvenido al registro"
-              }          
-  post:
-    description: datos del usuario a registrar, previamente validado
-    queryParameters: 
-      nombre : string
-      email : string
-      password: string
-      rango : string
-    body: 
-      application/json:
-        example: |
-          {
-            "nombre" : "ricarso_usuario",
-            "email" : "ricarso_usuario@gmail.com",
-            "password": "1234",
-            "rango": "empleado"
-          }
-    responses: 
-      201:
-        description: el usuario a sido creado, y asignamos un ID
-        body: 
-          application/json:
-            example: |
-              {
-                "id": 8,
-                "nombre": "ricarso_usuario",
-                "email": "ricarso_usuario@gmail.com",
-                "rango": "empleado"
-              }
-      202:
-        description: enviado pero no aceptado, email ya registrado
-        body: 
-          application/json:
-            example: |
-              {
-                "respuesta": "email ya registrado"
-              }
-      400:
-        body: 
-          application/json:
-            example: |
-              {
-                "registro": "Fallo al registro"
-              }
-/auth/login :
-  description: autentificacion de usuarios
-  get:
-    description: pagina de Registro Generada por Angular2/Ionic2
-    responses:
-      200:
-        body:
-          application/json:
-            description: devuelve el "mensaje" cuando entra por redireccionamiento
-            example: |
-              {
-                "mensaje": [],
-                "autoMensaje": []
-              }               
-      
-  post:
-    description: datos de usuario registrado
-    queryParameters: 
-      username: string
-      password: string
-    body: 
-      application/json:
-        example: |
-          {
-            "username" : "ricarso_usuario@gmail.com",
-            "password": "1234"
-          }
-    responses: 
-      200:
-        description: redireciona a /usuarios/panel
-        body: 
-          application/json:
-            example: |
-              {
-                "usuarioLogeado": "Feliz Experiencia",
-                "estaAutentificado": true,
-                "usuario": {
+/auth :
+  /registro:
+    description: creacion o registro de usuarios
+    get:
+      description: pagina de Registro Generada por Angular2/Ionic2
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "registro": "Bienvenido al registro"
+                }          
+    post:
+      description: datos del usuario a registrar, previamente validado
+      queryParameters: 
+        nombre : string
+        email : string
+        password: string
+        rango : string
+      body: 
+        application/json:
+          example: |
+            {
+              "nombre" : "ricarso_usuario",
+              "email" : "ricarso_usuario@gmail.com",
+              "password": "1234",
+              "rango": "empleado"
+            }
+      responses: 
+        201:
+          description: el usuario a sido creado, y asignamos un ID
+          body: 
+            application/json:
+              example: |
+                {
                   "id": 8,
                   "nombre": "ricarso_usuario",
                   "email": "ricarso_usuario@gmail.com",
                   "rango": "empleado"
                 }
-              }
-      202:
-        description: error en password o username, descrito en autoMensaje, o no existe el usuario
-        body: 
-          application/json:
-            example: | 
-              {
-                "mensaje": [],
-                "autoMensaje": ["Email o password incorrecto"]
-              }
-      
+        202:
+          description: enviado pero no aceptado, email ya registrado
+          body: 
+            application/json:
+              example: |
+                {
+                  "respuesta": "email ya registrado"
+                }
+        400:
+          body: 
+            application/json:
+              example: |
+                {
+                  "registro": "Fallo al registro"
+                }
+  /login :
+    description: autentificacion de usuarios
+    get:
+      description: pagina de Registro Generada por Angular2/Ionic2
+      responses:
+        200:
+          body:
+            application/json:
+              description: devuelve el "mensaje" cuando entra por redireccionamiento
+              example: |
+                {
+                  "mensaje": [],
+                  "autoMensaje": []
+                }               
+        
+    post:
+      description: datos de usuario registrado
+      queryParameters: 
+        username: string
+        password: string
+      body: 
+        application/json:
+          example: |
+            {
+              "username" : "ricarso_usuario@gmail.com",
+              "password": "1234"
+            }
+      responses: 
+        200:
+          description: redireciona a /usuarios/panel
+          body: 
+            application/json:
+              example: |
+                {
+                  "usuarioLogeado": "Feliz Experiencia",
+                  "estaAutentificado": true,
+                  "usuario": {
+                    "id": 8,
+                    "nombre": "ricarso_usuario",
+                    "email": "ricarso_usuario@gmail.com",
+                    "rango": "empleado"
+                  }
+                }
+        202:
+          description: error en password o username, descrito en autoMensaje, o no existe el usuario
+          body: 
+            application/json:
+              example: | 
+                {
+                  "mensaje": [],
+                  "autoMensaje": ["Email o password incorrecto"]
+                }
+  /isloged:
+    description: con esto verficamos si esta logueado o no 
+    get:
+      description: retorna un objeto json
+      responses: 
+        200:
+          body: 
+            application/json:
+              example: |
+                {
+                  "estaAutentificado": false
+                }
+  /cerrar:
+    description: cerrar sesion con el servidor
+    get:
+      description: cerrar secion y redireccion a /auth/login
+        
 /usuarios :
   description: Control de usuarios (por el momento no necesita ningun login por motivos de desarrollo)
   get:
@@ -208,7 +225,7 @@ mediaType: application/json
       email : string
       password: string
       rango : string
-    body: 
+    body:                               
       application/json:
         example: |
          {
@@ -235,7 +252,7 @@ mediaType: application/json
               {
                 "registro": "Fallo al registro"
               }
-          
- 
-            
- 
+
+/libros:
+  
+

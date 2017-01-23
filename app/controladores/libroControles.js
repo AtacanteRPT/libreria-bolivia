@@ -7,6 +7,7 @@ var express = require('express'),
 module.exports  = app =>{
     app.use('/',router);
 }
+
 router.get('/libros', (req, res, next) => {
     db.libros.findAll({ attributes: ['id', 'codigo', 'nombre', 'precio','estanteId'] }).then((libros) => {
         res.json(libros);
@@ -16,11 +17,12 @@ router.get('/libros', (req, res, next) => {
 })
 router.post('/libros', (req, res, next) => {
     var nuevoLibro  =  {
-        codigo : req.codigo,
-        nombre :  req.nombre , 
-        precio : req.precio,
-        estanteId : req.estanteId
+        codigo : req.body.codigo,
+        nombre :  req.body.nombre , 
+        precio : req.body.precio,
+        estanteId : req.body.estanteId
     }
+
     db.libros.create(nuevoLibro).then((libro) => {
         res.json(libro);
     }, (ex) => {
@@ -35,6 +37,7 @@ router.get('/libros/:id', (req, res, next) => {
         } else {
             res.status(404).send();
         }
+
     }, (ex) => {
         res.status(500).send();
     })
@@ -42,10 +45,11 @@ router.get('/libros/:id', (req, res, next) => {
 router.put('/libros/:id', (req, res, next) => {
     var libroId = parseInt(req.params.id, 10)
     var libroEditado = {
-        nombre: req.nombre,
-        precio: req.precio,
-        estanteId: req.estanteId
+        nombre: req.body.nombre,
+        precio: req.body.precio,
+        estanteId: req.body.estanteId
     }
+
     db.libros.findById(libroId).then( libro => {
         if (libro) {
             libro.update(libroEditado).then((libroModificado) => {
@@ -56,6 +60,7 @@ router.put('/libros/:id', (req, res, next) => {
         } else {
             res.status(404).send();
         }
+
     }, (ex) => {
         res.status(500).send();
     });
@@ -66,12 +71,14 @@ router.delete('/libros/:id', (req , res , next)=>{
         where:{
             id : libroId
         }
+
     }).then((filas)=>{
         if(filas ===0){
             res.status(404).send();
         }else{
             res.status(204).send();
         }
+
     }, ()=>{
         res.status(500).send();
     })

@@ -9,8 +9,8 @@ var config = {
       name: 'libreria-bolivia'
     },
     port: process.env.PORT || 3000,
-    // db: 'mysql://root:libreria-bolivia@104.155.155.66/libreria-bolivia-development'
-    db: 'mysql://root@127.0.0.1/libreria-bolivia-development'
+    db: 'mysql://root:libreria-bolivia@104.155.155.66/libreria-bolivia-development'
+    //db: 'mysql://root@127.0.0.1/libreria-bolivia-development'
 
   },
 
@@ -23,7 +23,7 @@ var config = {
     db: 'mysql://root:libreria-bolivia@104.155.155.66/libreria-bolivia-test'
   },
 
-  production: {
+  production: { 
     root: rootPath,
     app: {
       name: 'libreria-bolivia'
@@ -31,6 +31,7 @@ var config = {
     port: process.env.PORT || 3000,
     db: 'mysql://root:libreria-bolivia@104.155.155.66/libreria-bolivia-production'
   }
+
 };
 
 module.exports = config[env];

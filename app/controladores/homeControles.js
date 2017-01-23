@@ -16,6 +16,9 @@ router.get('/', (req, res, next) => {
   });
 })
 
+router.get('/auth/isloged',(req,res,next) =>{
+    res.status(200).json({estaAutentificado : req.isAuthenticated()})
+})
 router.get('/api', (req, res, next) => {
   return res.render('api', {
     title: 'Documentacion Hipster'
